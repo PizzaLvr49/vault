@@ -1,5 +1,5 @@
 {
-  "name": "@rbxts/vault",
+  "name": "@rbxts/persist",
   "version": "1.0.0",
   "description": "",
   "main": "out/init.lua",
@@ -32,5 +32,8 @@
     "prettier": "^3.6.0",
     "roblox-ts": "^3.0.0",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@rbxts/services": "^1.5.5"
   }
 }
