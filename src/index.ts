@@ -1,7 +1,7 @@
 import { DataStoreService } from "@rbxts/services";
 import SchemaStoreSession from "./SchemaStoreSession";
 
-type DataSchema = { [key: string]: DataSchema } | number | string | boolean | DataSchema[];
+export type DataSchema = { [key: string]: DataSchema } | number | string | boolean | DataSchema[];
 
 export class SchemaStore<Schema extends DataSchema> {
 	private readonly template: Schema;
@@ -12,16 +12,21 @@ export class SchemaStore<Schema extends DataSchema> {
 		this.ApiStore = DataStoreService.GetDataStore("___SS", storeName);
 	}
 
-	ReadAsync(player: Player): Schema {
-		const data = this.ApiStore.GetAsync(`Player_${player.UserId}`);
-		print(data);
+	// ReadAsync(player: Player): Schema {
+	// 	const key = `Player_${player.UserId}`;
 
-		return (data as unknown as Schema) ?? this.template; // fix later lol
-	}
+	// 	this.ApiStore.SetAsync(key, this.template);
 
-	StartSessionAsync(key: string): SchemaStoreSession {
-		return new SchemaStoreSession();
+	// 	const data = this.ApiStore.GetAsync(key);
+	// 	print(data);
+
+	// 	const versions = this.ApiStore.ListVersionsAsync(key, Enum.SortDirection.Descending);
+	// 	print(this.ApiStore.GetVersionAsync(key, versions.GetCurrentPage()[0].Version));
+
+	// 	return (data as unknown as Schema) ?? this.template; // fix later lol
+	// }
+
+	StartSessionAsync(key: string): SchemaStoreSession<Schema> {
+		return new SchemaStoreSession(this.ApiStore, key, this.template);
 	}
 }
-
-new SchemaStore<{ hello: string }>("", { hello: "" });
